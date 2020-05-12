@@ -267,8 +267,8 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
         for (int j = 1; j <= nCols; ++j)
         {
             int val = (i - 1) * nRows + j - 1, k = 0;
-            if (( NumberOfClick == 1 ||  NumberOfClick == 2) && val == value) k = 1;
-            if ( NumberOfClick == 2 && val == Pre ) k = 1;
+            if (( NumberOfClick == 1 ||  NumberOfClick == 2) && val == value) k = 1; // click lần 1 => hiện và 2 giống nhau sẽ hiện cả 2
+            if ( NumberOfClick == 2 && val == Pre ) k = 1; // click lần 2 => hiện
             if (Opened[val] != 0) k = 2;
             rt = { (j - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_TIME + (i - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_SIZE,MEMORY_CELL_SIZE };
             SDL_RenderCopy(g.renderer, g.MemoryTexture,
@@ -284,7 +284,7 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
 void ClickAction(SDL_Event& event, Graphic& graphic)
 {
     SDL_MouseButtonEvent mouse = event.button;
-    if (mouse.y < MEMORY_CELL_TIME) update(graphic, ++Time, 0, 0, 0);// bấm chuột vào thanh thời gian = > tất cả các ô là hình mặt cười
+    if (mouse.y < MEMORY_CELL_TIME) update(graphic, ++Time, 0, 0, 0);// bấm chuột vào thanh thời gian = > tất cả các ô là hình mặt cười và ô đã mở(nếu có)
     else
     {
         int row = (mouse.y - MEMORY_CELL_TIME) / WINDOW_CELL_SIZE,
