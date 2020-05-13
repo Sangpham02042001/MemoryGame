@@ -44,7 +44,7 @@ SDL_Texture* createTexture(SDL_Renderer* renderer, const string& path);
 // Lưu vị trí các hình trong ảnh vào tham số rects
 void initMemoryRects(vector<SDL_Rect>& rects);
 
-// random mảng vt[36] có giá trị các phần tử từ 0 đến 35
+// random mảng Pos[36] có giá trị các phần tử từ 0 đến 35
 void random(int nRows, int nCols);
 
 // tạo trạng thái ban đầu cho game
