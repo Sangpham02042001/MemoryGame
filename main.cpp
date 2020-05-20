@@ -194,7 +194,7 @@ void initMemoryRects(vector<SDL_Rect>& rects)
 
 
 void random(int nRows, int nCols)
-{   // mảng vt đánh dấu các ô đã dùng
+{   // mảng Pos đánh dấu các ô đã dùng
     // mảng arr lưu vị trí
     int valmax = nRows * nCols; // 6*6 = 36
     int arr[valmax];
