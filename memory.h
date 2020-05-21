@@ -9,7 +9,7 @@
 using namespace std;
 
 const int MEMORY_CELL_SIZE = 50;   // kich thuoc anh goc
-const int MEMORY_CELL_TIME = 20;   //
+const int MEMORY_CELL_TIME = 20;   // kich thuoc thanh thoi gian
 const int WINDOW_CELL_SIZE = 50;   // kich thuoc khi hien thi cua 1 o
 const int DEFAULT_NUM_ROWS = 6;    // so luong o theo chieu ngang
 const int DEFAULT_NUM_COLS = 6;    // so luong o theo chieu doc
