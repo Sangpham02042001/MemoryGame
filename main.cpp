@@ -221,16 +221,16 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
         for (int j = 1; j <= nCols; ++j)
         {
             int val = (i - 1) * nRows + j - 1, k = 0;
-            if (( NumberOfClick == 1 ||  NumberOfClick == 2) && val == value) k = 1; // click lần 1 => hiện và 2 giống nhau sẽ hiện cả 2
-            if ( NumberOfClick == 2 && val == Pre ) k = 1; // click lần 2 => hiện
+            if (( NumberOfClick == 1 ||  NumberOfClick == 2) && val == value) k = 1; // click lan 1 => hien va  2 giong nhau se hien ca 2
+            if ( NumberOfClick == 2 && val == Pre ) k = 1; // click lan 2 => hien
             if (Opened[val] != 0) k = 2;
             rect = { (j - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_TIME + (i - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_SIZE,MEMORY_CELL_SIZE };
             SDL_RenderCopy(g.renderer, g.MemoryTexture,
-                           &g.MemoryRects[k == 2 ? 12 : k == 1 ? Pos[val] / 4 : 9] , // 12 là vị trí ô đen trong MemoryRect , 9 là hình mặt cười
+                           &g.MemoryRects[k == 2 ? 12 : k == 1 ? Pos[val] / 4 : 9] , // 12 la vi tri o den trong MemoryRect, 9 la hinh mat cuoi
                             &rect);
         }
     }
-    SDL_RenderPresent(g.renderer);    // Hiển thị những gì vữa vẽ
+    SDL_RenderPresent(g.renderer);    
     SDL_Delay(300);
 }
 
@@ -238,13 +238,13 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
 void ClickAction(SDL_Event& event, Graphic& graphic)
 {
     SDL_MouseButtonEvent mouse = event.button;
-    if (mouse.y < MEMORY_CELL_TIME) update(graphic, ++Time, 0, 0, 0);// bấm chuột vào thanh thời gian = > tất cả các ô là hình mặt cười và ô đã mở(nếu có)
+    if (mouse.y < MEMORY_CELL_TIME) update(graphic, ++Time, 0, 0, 0);// bam chuot vao thanh thoi gian => tat ca cac o la hinh mat cuoi va o da mo(neu co)
     else
     {
         int row = (mouse.y - MEMORY_CELL_TIME) / WINDOW_CELL_SIZE,
             col = mouse.x / WINDOW_CELL_SIZE;
         int value = row * 6 + col;
-        if (Opened[value] || NowAction[value] )                 // bấm chuột vào ô đã mở hoặc cùng 1 ô 2 lần
+        if (Opened[value] || NowAction[value] )                 // bam chuot vao o da mo hoac vao cung 1 o 2 lan 
         {
             update(graphic, ++Time, 0, value, PreviousValue);
         }
