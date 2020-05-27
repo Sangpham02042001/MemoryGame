@@ -23,12 +23,16 @@ int main(int argc, char* argv[])
         finalizeGraphic(graphic);
         return EXIT_FAILURE;
     }
+    mix_click = Mix_LoadWAV("mix_doodle.mp3");
+    mix_game = Mix_LoadWAV("music.mp3");
+    mix_win = Mix_LoadWAV("win_music.mp3");
     random(nRows, nCols);
     initGame(graphic, nRows, nCols);
     SDL_Event event;
-    while (Time < 300)
+    while (Time < 200)
     {
         update(graphic, ++Time, 0, 0, 0);
+        Mix_PlayChannel(-1,mix_game,0);
         while (SDL_PollEvent(&event) != 0)
         {
             if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -50,8 +54,9 @@ int main(int argc, char* argv[])
         graphic.MemoryTexture = createTexture(graphic.renderer, WIN);
         SDL_RenderCopy(graphic.renderer, graphic.MemoryTexture, 0, 0);
         SDL_RenderPresent(graphic.renderer);
+        Mix_PlayChannel(-1,mix_win,0);
     }
-    SDL_Delay(1000);
+    SDL_Delay(2000);
     finalizeGraphic(graphic);
     return EXIT_SUCCESS;
 }
@@ -98,6 +103,7 @@ bool initGraphic(Graphic& g, int nRows, int nCols)
         err("Unable to create texture from " + MEMORY_PATH + "!");
         return false;
     }
+    if(Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2 , 4096) == -1) return false;
     initMemoryRects(g.MemoryRects);
     return true;
 }
@@ -194,7 +200,7 @@ void initGame(Graphic& g, int nRows, int nCols)
             int val = (i - 1) * nRows + j - 1; // val tu 0 den 35
             rect = { (j - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_TIME + (i - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_SIZE,MEMORY_CELL_SIZE };
             SDL_RenderCopy(g.renderer, g.MemoryTexture,
-                            &g.MemoryRects[Pos[val] / 4],  // co 9 hinh anh Pokemon
+                            &g.MemoryRects[Pos[val] / 4],  // co 9 shinh anh Pokemon
                             &rect);
         }
     }
@@ -230,8 +236,8 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
                             &rect);
         }
     }
-    SDL_RenderPresent(g.renderer);    
-    SDL_Delay(300);
+    SDL_RenderPresent(g.renderer);
+    SDL_Delay(600);
 }
 
 
@@ -241,10 +247,11 @@ void ClickAction(SDL_Event& event, Graphic& graphic)
     if (mouse.y < MEMORY_CELL_TIME) update(graphic, ++Time, 0, 0, 0);// bam chuot vao thanh thoi gian => tat ca cac o la hinh mat cuoi va o da mo(neu co)
     else
     {
+        Mix_PlayChannel(-1, mix_click, 0);
         int row = (mouse.y - MEMORY_CELL_TIME) / WINDOW_CELL_SIZE,
             col = mouse.x / WINDOW_CELL_SIZE;
         int value = row * 6 + col;
-        if (Opened[value] || NowAction[value] )                 // bam chuot vao o da mo hoac vao cung 1 o 2 lan 
+        if (Opened[value] || NowAction[value] )                 // bam chuot vao o da mo hoac vao cung 1 o 2 lan
         {
             update(graphic, ++Time, 0, value, PreviousValue);
         }
@@ -281,11 +288,3 @@ void err(const string& m)
 {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", m.c_str(), NULL);
 }
-
-
-
-
-
-
-
-
