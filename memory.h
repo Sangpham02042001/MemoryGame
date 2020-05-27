@@ -1,10 +1,13 @@
 #ifndef MEMORY_H_INCLUDED
 #define MEMORY_H_INCLUDED
 
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <string>
-#include <vector>
+#include <SDL_mixer.h>
 
 using namespace std;
 
@@ -18,6 +21,9 @@ const string SCREEN_TITLE = "MEMORY";   // Tieu de cua so
 const string MEMORY_PATH = "image.jpg";     // duong dan den file anh
 const string LOST = "lost.jpg";
 const string WIN = "win.jpg";
+Mix_Chunk* mix_click;
+Mix_Chunk* mix_game;
+Mix_Chunk* mix_win;
 //-------------------------------------------------//
 
 int Pos[36], Time = -1, click = 0, NowAction[36], PreviousValue = 0, Opened[36], dem = 0;
