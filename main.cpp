@@ -25,14 +25,13 @@ int main(int argc, char* argv[])
     }
     mix_click = Mix_LoadWAV("mix_doodle.mp3");
     mix_game = Mix_LoadWAV("music.mp3");
-    mix_win = Mix_LoadWAV("win_music.mp3");
     random(nRows, nCols);
     initGame(graphic, nRows, nCols);
     SDL_Event event;
-    while (Time < 200)
+    while (Time < 300)
     {
-        update(graphic, ++Time, 0, 0, 0);
         Mix_PlayChannel(-1,mix_game,0);
+        update(graphic, ++Time, 0, 0, 0);
         while (SDL_PollEvent(&event) != 0)
         {
             if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -54,7 +53,6 @@ int main(int argc, char* argv[])
         graphic.MemoryTexture = createTexture(graphic.renderer, WIN);
         SDL_RenderCopy(graphic.renderer, graphic.MemoryTexture, 0, 0);
         SDL_RenderPresent(graphic.renderer);
-        Mix_PlayChannel(-1,mix_win,0);
     }
     SDL_Delay(2000);
     finalizeGraphic(graphic);
@@ -237,7 +235,7 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
         }
     }
     SDL_RenderPresent(g.renderer);
-    SDL_Delay(600);
+    SDL_Delay(400);
 }
 
 
