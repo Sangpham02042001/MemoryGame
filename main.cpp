@@ -15,7 +15,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    srand(time(0)); 
+    srand(time(0));
     int nRows = DEFAULT_NUM_ROWS,
         nCols = DEFAULT_NUM_COLS;
     Graphic graphic;
@@ -180,34 +180,34 @@ void random(int nRows, int nCols)
 
 void initGame(Graphic& g, int nRows, int nCols)
 {
-    SDL_RenderClear(g.renderer);      
+    SDL_RenderClear(g.renderer);
     SDL_Rect rect;
-    for (int i = 0; i < nCols * MEMORY_CELL_SIZE; ++i)  
+    for (int i = 0; i < nCols * MEMORY_CELL_SIZE; ++i)
     {
-        rect = { i,0,1,MEMORY_CELL_TIME };           
+        rect = { i,0,1,MEMORY_CELL_TIME };
         SDL_RenderCopy(g.renderer, g.MemoryTexture,
-                        &g.MemoryRects[10] ,    
+                        &g.MemoryRects[10] ,
                          &rect);
     }
     for (int i = 1; i <= nRows; ++i)
     {
         for (int j = 1; j <= nCols; ++j)
         {
-            int val = (i - 1) * nRows + j - 1; 
+            int val = (i - 1) * nRows + j - 1;
             rect = { (j - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_TIME + (i - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_SIZE,MEMORY_CELL_SIZE };
             SDL_RenderCopy(g.renderer, g.MemoryTexture,
-                            &g.MemoryRects[Pos[val] / 4],  
+                            &g.MemoryRects[Pos[val] / 4],
                             &rect);
         }
     }
-    SDL_RenderPresent(g.renderer);    
-    SDL_Delay(2000); 
+    SDL_RenderPresent(g.renderer);
+    SDL_Delay(2000);
 }
 
 
 void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
 {
-    SDL_RenderClear(g.renderer);      
+    SDL_RenderClear(g.renderer);
     SDL_Rect rect;
     int nRows = DEFAULT_NUM_ROWS,
         nCols = DEFAULT_NUM_COLS;
@@ -215,7 +215,7 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
     {
         rect = { i,0,1,MEMORY_CELL_TIME };
         SDL_RenderCopy(g.renderer, g.MemoryTexture,
-            &g.MemoryRects[i >= time ? 10 : 11]      
+            &g.MemoryRects[i >= time ? 10 : 11]
             , &rect);
     }
     for (int i = 1; i <= nRows; ++i)
@@ -223,8 +223,8 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
         for (int j = 1; j <= nCols; ++j)
         {
             int val = (i - 1) * nRows + j - 1, k = 0;
-            if (( NumberOfClick == 1 ||  NumberOfClick == 2) && val == value) k = 1; 
-            if ( NumberOfClick == 2 && val == Pre ) k = 1; 
+            if (( NumberOfClick == 1 ||  NumberOfClick == 2) && val == value) k = 1;
+            if ( NumberOfClick == 2 && val == Pre ) k = 1;
             if (Opened[val] != 0) k = 2;
             rect = { (j - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_TIME + (i - 1) * MEMORY_CELL_SIZE,MEMORY_CELL_SIZE,MEMORY_CELL_SIZE };
             SDL_RenderCopy(g.renderer, g.MemoryTexture,
@@ -240,14 +240,14 @@ void update(Graphic& g, int time, int NumberOfClick, int value, int Pre)
 void ClickAction(SDL_Event& event, Graphic& graphic)
 {
     SDL_MouseButtonEvent mouse = event.button;
-    if (mouse.y < MEMORY_CELL_TIME) update(graphic, ++Time, 0, 0, 0
+    if (mouse.y < MEMORY_CELL_TIME) update(graphic, ++Time, 0, 0, 0);
     else
     {
         Mix_PlayChannel(-1, mix_click, 0);
         int row = (mouse.y - MEMORY_CELL_TIME) / WINDOW_CELL_SIZE,
             col = mouse.x / WINDOW_CELL_SIZE;
         int value = row * 6 + col;
-        if (Opened[value] || NowAction[value] )                 
+        if (Opened[value] || NowAction[value] )
         {
             update(graphic, ++Time, 0, value, PreviousValue);
         }
